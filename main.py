@@ -14,7 +14,16 @@ def hello():
 def calc(n):
     try:
         n = int(n)
-        return str(2 * n)
+        return "Thanks Harald "+str(4 * n)
+    except:
+        return 'error', 300
+
+@app.route("/findstat/<n>/<k>")
+def findstat_main(n,k):
+    from sage.all_cmdline import sage_eval
+    try:
+        n = sage_eval("factor(Integer(%s)**%s)"%(n,k))
+        return "How do I start Sage computations here?%s"%str(n)
     except:
         return 'error', 300
 
