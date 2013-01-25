@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 
@@ -14,25 +14,25 @@ def hello():
 def calc(n):
     try:
         n = int(n)
-        return "Thanks Harald "+str(4 * n)
+        return "Thanks Harald " + str(4 * n)
     except:
         return 'error', 300
 
+
 @app.route("/findstat/<n>/<k>")
-def findstat_main(n,k):
-    from sage.all_cmdline import sage_eval
-    try:
-        n = sage_eval("factor(Integer(%s)**%s)"%(n,k))
-        return "How do I start Sage computations here?%s"%str(n)
-    except:
-        return 'error', 300
+def findstat_main(n, k):
+    from sage.all_cmdline import Integer, factor
+    n = factor(Integer(n) ** Integer(k))
+    txt = "The result is: '%s'" % str(n)
+    return render_template("home.html", text=txt)
 
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--debug", help="enables flask's debug mode", action = "store_true")
+    parser.add_argument(
+        "--debug", help="enables flask's debug mode", action="store_true")
     args = parser.parse_args()
 
     options = {}
-    options.update({'debug' : args.debug})
+    options.update({'debug': args.debug})
     app.run(**options)
