@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
 <title>Findstat</title>
 
 </head>
@@ -8,5 +10,29 @@
 {% block body %}
 
 {% endblock %}
+
+<ul>
+    {% for item in navigation %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% endfor %}
+</ul>
+
+<div>
+<span id="link">click here</span>
+<br/>
+<span id="target">...</span>
+</div>
+
+
+<script>
+$(function() {
+
+  $("#link").click(function(evt) {    
+    $.get('{{ url_for("calc", n="1232") }}', function(data) {
+      $('#target').html(data);
+    });
+  });
+});
+</script>
 </body>
 </html>

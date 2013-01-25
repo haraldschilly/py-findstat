@@ -18,13 +18,17 @@ def calc(n):
     except:
         return 'error', 300
 
-
 @app.route("/findstat/<n>/<k>")
 def findstat_main(n, k):
     from sage.all_cmdline import Integer, factor
     n = factor(Integer(n) ** Integer(k))
     txt = "The result is: '%s'" % str(n)
-    return render_template("home.html", text=txt)
+    var = factor(Integer(k))
+    navigation = [  { "href":"link1", "caption":"linknname1" },
+                    { "href":"link2", "caption":"linknname2" },
+                    { "href":"link3", "caption":"linknname3" }
+                 ]
+    return render_template("home.html", text=txt,var=var,navigation=navigation)
 
 if __name__ == "__main__":
     import argparse
